@@ -1,6 +1,6 @@
 ﻿namespace Markdown.Tags;
 
-public class HeadingToken : IToken
+public class HashTag : ITag
 {
     public List<string> TokenIdentifiers => ["#"];
     public bool HasPair => false;

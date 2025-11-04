@@ -1,6 +1,6 @@
 ﻿namespace Markdown.Tags;
 
-public class BoldToken : IToken
+public class DoubleUnderscoreTag : ITag
 {
     public List<string> TokenIdentifiers => ["__"];
     public bool HasPair => true;

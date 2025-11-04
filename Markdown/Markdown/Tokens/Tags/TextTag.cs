@@ -1,8 +1,8 @@
 ﻿namespace Markdown.Tags;
 
-public class TextToken : IToken
+public class TextTag : ITag
 {
-    public List<string> TokenIdentifiers { get; }
+    public string TokenIdentifiers { get; }
     public bool HasPair { get; }
     public string HtmlTag { get; }
 }

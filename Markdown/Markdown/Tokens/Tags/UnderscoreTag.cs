@@ -1,8 +1,8 @@
 ﻿namespace Markdown.Tags;
 
-public class ItalicsToken : IToken
+public class UnderscoreTag : ITag
 {
-    public List<string> TokenIdentifiers => ["_"];
+    public string TokenIdentifiers => "_";
     public bool HasPair => true;
     public string HtmlTag => "em";
 }

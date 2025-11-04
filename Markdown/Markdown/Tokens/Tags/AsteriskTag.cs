@@ -1,8 +1,8 @@
 ﻿namespace Markdown.Tags;
 
-public class MarkedListToken : IToken
+public class AsteriskTag : ITag
 {
-    public List<string> TokenIdentifiers => ["*", "-", "+"];
+    public string TokenIdentifiers => "*"; //["*", "-", "+"];
     public bool HasPair => false;
     public string CommonHtmlTag => "ul";
     public string HtmlTag => "li";

@@ -2,9 +2,9 @@
 
 namespace Markdown.Tokens;
 
-public class Token(IToken type, string value, int position)
+public class Token(ITag type, string value, int position)
 {
-    public IToken Type { get; } = type;
+    public ITag Type { get; } = type;
     public string Value { get; } = value;
     public int Position { get; } = position;
 }
