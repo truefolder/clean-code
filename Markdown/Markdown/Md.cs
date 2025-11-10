@@ -1,9 +1,14 @@
-﻿namespace Markdown;
+﻿using System.Text;
+using Markdown.Renderers;
+
+namespace Markdown;
 
 public class Md
 {
     public string Render(string markdown)
     {
-        throw new NotImplementedException();
+        var html = new StringBuilder();
+        var mdToHtml = new MarkdownToHtmlRenderer();
+        return mdToHtml.RenderWithConstraints(markdown, true);
     }
 }

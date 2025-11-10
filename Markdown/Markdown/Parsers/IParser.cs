@@ -4,5 +4,6 @@ namespace Markdown.Parsers;
 
 public interface IParser
 {
-    Token Parse(string text);
+    public bool CanParse(char symbol, string text, int index);
+    public Token Parse(string text, int index);
 }

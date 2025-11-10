@@ -1,6 +1,6 @@
 ﻿namespace Markdown.Tokens.Tags;
 
-public interface ITag
+public class BackslashTag : ITag
 {
     public string HtmlTag { get; }
 }
