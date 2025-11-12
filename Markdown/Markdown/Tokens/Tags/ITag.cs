@@ -2,5 +2,6 @@
 
 public interface ITag
 {
+    public ETagType Type { get; }
     public string HtmlTag { get; }
 }

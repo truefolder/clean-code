@@ -54,7 +54,7 @@ public class Tokenizer
             }
 
             if (!matched)
-                _tokens.Add(new Token(new TextTag(), line[i].ToString(), i)); // собирать цельную строку из текстовых тегов, 
+                _tokens.Add(new Token(new TextTag(), line[i].ToString(), i));
         }
 
         if (linesLength > 1 && lineIndex < linesLength - 1)

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Markdown.Extensions;
 using Markdown.Tokens;
 using Markdown.Tokens.Tags;
 
@@ -20,18 +21,16 @@ public class MarkdownToHtmlRenderer()
                 continue;
             }
             var token = tokens[i];
-            if (token.Type is TextTag)
+            if (token.Tag.Type == ETagType.Text)
             {
                 html.Append(token.Value);
                 continue;
             }
 
-            var innerPartAllowBold = token.Type is not UnderscoreTag;
+            var innerPartAllowBold = token.Tag.Type != ETagType.Italics;
 
             var innerHtml = RenderWithConstraints(token.Value, innerPartAllowBold);
-            html.Append('<').Append(token.Type.HtmlTag).Append('>')
-                .Append(innerHtml)
-                .Append("</").Append(token.Type.HtmlTag).Append('>');
+            html.AppendHtml(token.Tag.HtmlTag, innerHtml);
         }
 
         return html.ToString();
@@ -45,7 +44,7 @@ public class MarkdownToHtmlRenderer()
             return false;
         }
 
-        var listTagType = tokens[index].Type.GetType();
+        var listTagType = tokens[index].Tag.Type;
         var lastItemIndex = index;
 
         html.Append("<ul>");
@@ -54,17 +53,15 @@ public class MarkdownToHtmlRenderer()
         {
             if (!IsMarkedListItemOfType(tokens, currentIndex, listTagType))
                 break;
-
-            html.Append("<").Append(tokens[currentIndex].Type.HtmlTag).Append('>')
-                .Append(RenderWithConstraints(tokens[currentIndex].Value, allowBold: true))
-                .Append("</").Append(tokens[currentIndex].Type.HtmlTag).Append('>');
+            html.AppendHtml(tokens[currentIndex].Tag.HtmlTag, 
+                RenderWithConstraints(tokens[currentIndex].Value, true));
 
             lastItemIndex = currentIndex;
             
             var lookAhead = currentIndex + 1;
             var newLines = 0;
 
-            while (lookAhead < tokens.Count && tokens[lookAhead] is { Type: TextTag, Value: "\n" })
+            while (lookAhead < tokens.Count && tokens[lookAhead] is { Tag.Type: ETagType.Text, Value: "\n" })
             {
                 newLines++;
                 lookAhead++;
@@ -90,13 +87,12 @@ public class MarkdownToHtmlRenderer()
 
     private bool IsMarkedListItem(Token token)
     {
-        return token.Type is AsteriskTag or DashTag or PlusTag;
+        return token.Tag.Type is ETagType.AsteriskMarkedList or ETagType.PlusMarkedList or ETagType.DashMarkedList;
     }
 
-    private bool IsMarkedListItemOfType(List<Token> tokens, int index, Type tagType)
+    private bool IsMarkedListItemOfType(List<Token> tokens, int index, ETagType tagType)
     {
         return index < tokens.Count &&
-               tokens[index].Type.GetType() == tagType &&
-               (tokens[index].Type is AsteriskTag || tokens[index].Type is DashTag || tokens[index].Type is PlusTag);
+               tokens[index].Tag.Type == tagType;
     }
 }

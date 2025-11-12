@@ -13,7 +13,7 @@ public class MarkedListParser(char marker) : IParser
         if (index != 0)
             return false;
 
-        if (index + 1 < text.Length && !char.IsWhiteSpace(text[index + 1])) // TODO: почему тут warning?
+        if (text.Length > 1 && !char.IsWhiteSpace(text[1]))
             return false;
         
         return true;
