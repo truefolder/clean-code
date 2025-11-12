@@ -81,18 +81,15 @@ public class BoldParser : IParser
     
     private bool HasUnclosedSingle(string innerPart)
     {
-        var open = innerPart.IndexOf('_');
-        if (open == -1)
-            return false;
+        var count = 0;
+        for (var i = 0; i < innerPart.Length - 1; i++)
+        {
+            if (innerPart[i] != '_' || innerPart[i + 1] == '_')
+                continue;
+            count++;
+        }
         
-        if (open + 1 >= innerPart.Length || char.IsWhiteSpace(innerPart[open + 1]))
-            return false;
-
-        var close = innerPart.IndexOf('_', open + 1);
-        if (close == -1)
-            return true;
-        
-        return close == 0 || char.IsWhiteSpace(innerPart[close - 1]);
+        return count % 2 == 1;
     }
     
     private bool IsEscaped(string text, int pos)
